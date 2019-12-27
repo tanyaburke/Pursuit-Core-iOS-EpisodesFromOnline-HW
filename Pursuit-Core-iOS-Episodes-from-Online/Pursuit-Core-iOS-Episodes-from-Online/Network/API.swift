@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct ElementAPICLient {
+struct ShowAPICLient {
     
-    static func fetchElement(completion: @escaping (Result <[Element],AppError>)->()){
-        
-        let elementEndPointURLString = "https://5c1d79abbc26950013fbcaa9.mockapi.io/api/v1/elements"
-        guard let url = URL(string: elementEndPointURLString) else {
-            completion(.failure(.badURL(elementEndPointURLString)))
+     static func fetchShows(query: String, completion: @escaping (Result <[Show],AppError>)->()){
+           let searchTerm = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "" //wiil replace space with %20
+        let showEndPointURLString = "http://api.tvmaze.com/search/shows?q=\(searchTerm)"
+        guard let url = URL(string: showEndPointURLString) else {
+            completion(.failure(.badURL(showEndPointURLString)))
             return
         }
         let request = URLRequest(url: url) //creating a url request
@@ -25,10 +25,10 @@ struct ElementAPICLient {
             case .failure(let appError):
                 completion(.failure(.networkClientError(appError)))
             case .success(let data):
-                do{//decoding raw data from the shared url session, according to our model=Results.self
-                    let elements = try
-                        JSONDecoder().decode([Element].self, from: data)
-                    completion(.success(elements))
+                do{
+                    let shows = try
+                        JSONDecoder().decode([Show].self, from: data)
+                    completion(.success(shows))
                 }catch{
                     completion(.failure(.decodingError(error)))
                     
@@ -39,47 +39,35 @@ struct ElementAPICLient {
     }
 
 
-static func postFavorite(favorite: Element, completion: @escaping (Result<Bool, AppError>)->()){
-    
-    let endpointURLString = "http://5c1d79abbc26950013fbcaa9.mockapi.io/api/v1/favorites"
-    guard let url = URL(string: endpointURLString) else{
-        completion(.failure(.badURL(endpointURLString)))
+    static func fetchEpisodes(episodeID: Int, completion: @escaping (Result <[Episode],AppError>)->()){
+      
+    let episodeEndPointURLString = "http://api.tvmaze.com/shows/\(episodeID)/episodes?specials=1"
+    guard let url = URL(string: episodeEndPointURLString) else {
+        completion(.failure(.badURL(episodeEndPointURLString)))
         return
     }
-    do {
-        let data = try JSONEncoder().encode(favorite)
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = data
-         
-        NetworkHelper.shared.performDataTask(with: request){(result) in
-            switch result{
-            case .failure(let appError):
-                completion(.failure(.networkClientError(appError)))
-            case .success:
-                completion(.success(true))
+    let request = URLRequest(url: url) //creating a url request
+    
+    NetworkHelper.shared.performDataTask(with: request){
+        (result) in
+        switch result{
+        case .failure(let appError):
+            completion(.failure(.networkClientError(appError)))
+        case .success(let data):
+            do{
+                let episodes = try
+                    JSONDecoder().decode([Episode].self, from: data)
+                completion(.success(episodes))
+            }catch{
+                completion(.failure(.decodingError(error)))
+                
             }
+            
         }
-        
-    } catch {
-        completion(.failure(.encodingError(error)))
     }
 }
+
     
     
-    
-    static func thumbImageUrl(elementNumber: Int)-> String {
-        var thumbNailUrl = ""
-        switch elementNumber {
-        case 1...9:
-            thumbNailUrl = "http://www.theodoregray.com/periodictable/Tiles/00\(elementNumber)/s7.JPG"
-        case 10...99:
-           thumbNailUrl = "http://www.theodoregray.com/periodictable/Tiles/0\(elementNumber)/s7.JPG"
-        default:
-            thumbNailUrl = "http://www.theodoregray.com/periodictable/Tiles/\(elementNumber)/s7.JPG"
-        }
-        return thumbNailUrl
 }
     
-}
