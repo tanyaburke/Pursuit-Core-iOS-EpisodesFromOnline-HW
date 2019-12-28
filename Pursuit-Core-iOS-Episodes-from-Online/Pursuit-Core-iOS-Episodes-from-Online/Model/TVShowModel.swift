@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Show:Codable{
+struct Shows:Codable{
     let id: Int
     let name: String
     let rating: Rating

@@ -10,7 +10,7 @@ import Foundation
 
 struct ShowAPICLient {
     
-     static func fetchShows(query: String, completion: @escaping (Result <[Show],AppError>)->()){
+     static func fetchShows(query: String, completion: @escaping (Result <[Shows],AppError>)->()){
            let searchTerm = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "" //wiil replace space with %20
         let showEndPointURLString = "http://api.tvmaze.com/search/shows?q=\(searchTerm)"
         guard let url = URL(string: showEndPointURLString) else {
@@ -27,7 +27,7 @@ struct ShowAPICLient {
             case .success(let data):
                 do{
                     let shows = try
-                        JSONDecoder().decode([Show].self, from: data)
+                        JSONDecoder().decode([Shows].self, from: data)
                     completion(.success(shows))
                 }catch{
                     completion(.failure(.decodingError(error)))

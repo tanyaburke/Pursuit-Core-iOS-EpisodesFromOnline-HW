@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="144" width="414" height="718"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="166" id="zx2-dG-YNq" customClass="CustomTableViewCell" customModule="Pursuit_Core_iOS_Episodes_from_Online" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="customCell" rowHeight="166" id="zx2-dG-YNq" customClass="CustomTableViewCell" customModule="Pursuit_Core_iOS_Episodes_from_Online" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="166"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zx2-dG-YNq" id="Q4P-0q-3iU">
@@ -53,6 +53,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="label" destination="FCu-wN-rTz" id="GbV-b3-f4n"/>
+                                            <outlet property="showImage" destination="yG0-Rq-wsr" id="hQT-Wc-hrH"/>
                                             <segue destination="1lQ-aX-fNH" kind="show" id="iYf-yb-f9E"/>
                                         </connections>
                                     </tableViewCell>
@@ -72,6 +74,10 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="EW9-3k-98Y"/>
+                    <connections>
+                        <outlet property="searchBar" destination="aXC-Mc-6lK" id="HeY-ey-86B"/>
+                        <outlet property="tableView" destination="5U5-5A-6kf" id="ogu-nl-PtT"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
