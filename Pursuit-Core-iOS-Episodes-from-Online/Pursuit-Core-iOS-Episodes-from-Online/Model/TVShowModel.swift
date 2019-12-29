@@ -9,9 +9,9 @@
 import Foundation
 
 struct Shows:Codable{
-    let id: Int
-    let name: String
-    let rating: Rating
+    let id: Int?
+    let name: String?
+    let rating: Rating?
     let image: ShowImage?
     
 }

@@ -12,7 +12,7 @@ struct ShowAPICLient {
     
      static func fetchShows(query: String, completion: @escaping (Result <[Shows],AppError>)->()){
            let searchTerm = query.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? "" //wiil replace space with %20
-        let showEndPointURLString = "http://api.tvmaze.com/search/shows?q=\(searchTerm)"
+        let showEndPointURLString = "https://api.tvmaze.com/search/shows?q=\(searchTerm)"
         guard let url = URL(string: showEndPointURLString) else {
             completion(.failure(.badURL(showEndPointURLString)))
             return
@@ -41,7 +41,7 @@ struct ShowAPICLient {
 
     static func fetchEpisodes(episodeID: Int, completion: @escaping (Result <[Episode],AppError>)->()){
       
-    let episodeEndPointURLString = "http://api.tvmaze.com/shows/\(episodeID)/episodes?specials=1"
+    let episodeEndPointURLString = "https://api.tvmaze.com/shows/\(episodeID)/episodes?specials=1"
     guard let url = URL(string: episodeEndPointURLString) else {
         completion(.failure(.badURL(episodeEndPointURLString)))
         return
